@@ -21,7 +21,7 @@ const Mentor = ({ mentor, student, setMentor, setStudent }) => {
     
     try {
       if (stu_name != "0") {
-        const response = await fetch(`http://localhost:3500/pre/${stu_name}`);
+        const response = await fetch(`https://full-stack-mentor-student-1.onrender.com/pre/${stu_name}`);
         const result = await response.json();
         if (typeof result.mentors === "undefined") {
           alert(`No mentors assigned to ${stu_name} `);
@@ -56,16 +56,21 @@ const Mentor = ({ mentor, student, setMentor, setStudent }) => {
   async function handleAdding(stu_name) {
     if (stu_name) {
       try {
-        const response = await fetch("http://localhost:3500/student");
+        const response = await fetch(
+          "https://full-stack-mentor-student-1.onrender.com/student"
+        );
         const result = await response.json();
         const res = result.students.find(
           (val) => val.name == stu_name && val.name
         );
         if (res) {
           axios
-            .put(`http://localhost:3500/mentor/add/${name}`, {
-              student: stu_name,
-            })
+            .put(
+              `https://full-stack-mentor-student-1.onrender.com/mentor/add/${name}`,
+              {
+                student: stu_name,
+              }
+            )
             .then((res) => {
               setInputName("");
               navigate("/");

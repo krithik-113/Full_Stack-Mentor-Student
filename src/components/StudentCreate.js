@@ -26,10 +26,13 @@ const StudentCreate = () => {
      },
      validate,
      onSubmit: (values, { resetForm }) => {
-       axios.post("http://localhost:3500/student/create", {
-         "name": values.name,
-         "email": values.email
-       });
+       axios.post(
+         "https://full-stack-mentor-student-1.onrender.com/student/create",
+         {
+           name: values.name,
+           email: values.email,
+         }
+       );
        resetForm();
        alert("Added new record");
        navigate("/student");

@@ -13,8 +13,8 @@ function App() {
   const student_c_Active = useRef()
   let [mentor, setMentor] = useState("");
   let [student, setStudent] = useState("");
-  const API_URL_mentor = "https://mentor-student-fullstack.netlify.app/mentor";
-  const API_URL_student = "https://mentor-student-fullstack.netlify.app/student";
+  const API_URL_mentor = "https://full-stack-mentor-student-1.onrender.com/mentor";
+  const API_URL_student = "https://full-stack-mentor-student-1.onrender.com/student";
   useEffect(() => {
     axios
       .get(API_URL_mentor)

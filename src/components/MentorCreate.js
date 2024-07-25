@@ -31,11 +31,14 @@ const MentorCreate = () => {
         },
         validate,
         onSubmit: (values, {resetForm}) => {
-            axios.post("http://localhost:3500/mentor/create", {
-                "name": values.name,
-                "email": values.email,
-                "course":values.course
-            });
+            axios.post(
+              "https://full-stack-mentor-student-1.onrender.com/mentor/create",
+              {
+                name: values.name,
+                email: values.email,
+                course: values.course,
+              }
+            );
             resetForm()
             alert("Added new record");
             navigate('/')

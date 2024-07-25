@@ -10,7 +10,9 @@ const Student = ({ student, setStudent, mentor, setMentor }) => {
   function handleFilter(value) {
     if (value === "2") {
       axios
-        .get("http://localhost:3500/student/nomenter")
+        .get(
+          "https://full-stack-mentor-student-1.onrender.com/student/nomenter"
+        )
         .then((response) => response.data)
         .then((res) => {
           setStudent(res.fields);
@@ -32,16 +34,21 @@ const Student = ({ student, setStudent, mentor, setMentor }) => {
   async function handleAdding(stu_name) {
     if (stu_name) {
       try {
-        const response = await fetch("http://localhost:3500/mentor");
+        const response = await fetch(
+          "https://full-stack-mentor-student-1.onrender.com/mentor"
+        );
         const result = await response.json();
         const res = result.mentors.find(
           (val) => val.name == stu_name && val.name
         );
         if (res) {
           axios
-            .put(`http://localhost:3500/student/add/${name}`, {
-              mentor: stu_name,
-            })
+            .put(
+              `https://full-stack-mentor-student-1.onrender.com/student/add/${name}`,
+              {
+                mentor: stu_name,
+              }
+            )
             .then((res) => {
               setInputName("");
               navigate("/");
@@ -63,7 +70,7 @@ const Student = ({ student, setStudent, mentor, setMentor }) => {
     try {
       if (ment_name != "0") {
         const response = await fetch(
-          `http://localhost:3500/mentor/${ment_name}`
+          `https://full-stack-mentor-student-1.onrender.com/mentor/${ment_name}`
         );
         const result = await response.json();
         const studentsToShow = [];
