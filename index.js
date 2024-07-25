@@ -237,6 +237,6 @@ app.delete("/student/del/:name", async (req, res) => {
   });
 });
 
-app.listen(3500, () => {
+app.listen(3500,"0.0.0.0",() => {
   console.log("server is running in port 3500");
 });
