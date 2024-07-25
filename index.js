@@ -12,7 +12,9 @@ app.use(express.urlencoded({ extended: false }));
 mongoose_connect_mongoDB().catch((err) => console.log);
 async function mongoose_connect_mongoDB() {
   try {
-    await mongoose.connect("mongodb://localhost:27017/mentorAndStudentDB");
+    await mongoose.connect(
+      "mongodb+srv://krithikroshan113:2xN58dmgXMuSCTi5@cluster0.8flmx4j.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+    );
     console.log("database connected successfully");
   } catch (err) {
     console.log(err);
@@ -85,40 +87,41 @@ app.post("/student/create", async (req, res) => {
 });
 // http://localhost:3500/mentor/add/:name
 app.put("/mentor/add/:name", async (req, res) => {
-  const { name } = req.params
+  const { name } = req.params;
   try {
-    const mentor = await mentorModule.find({ name: name })
+    const mentor = await mentorModule.find({ name: name });
     if (!mentor.length) {
       return res.json({
         message: "Mentor has not found",
-        mentorName:name
-      })
-    }
-    const students = await studentModule.find({ name: req.body.student })
-    if(!students.length){
-    return  res.json({
-        message: "Student has not found",
-        studentName:req.body.student
-      })
-    }
-     await mentorModule.updateMany(
-        { name: name },
-        { $push: { mentee: req.body.student} }
-    );
-    await studentModule.updateMany({ name: req.body.student },
-      {$push:{mentor:name}}
-    )
-      return res.json({
-        message: "mentor has updated successfully",
-        updatedMentorName: name,
+        mentorName: name,
       });
-    } catch (err) {
-     return res.json({
-        message: "mentor has not found",
-        error:err.message
-      })
     }
-  })
+    const students = await studentModule.find({ name: req.body.student });
+    if (!students.length) {
+      return res.json({
+        message: "Student has not found",
+        studentName: req.body.student,
+      });
+    }
+    await mentorModule.updateMany(
+      { name: name },
+      { $push: { mentee: req.body.student } }
+    );
+    await studentModule.updateMany(
+      { name: req.body.student },
+      { $push: { mentor: name } }
+    );
+    return res.json({
+      message: "mentor has updated successfully",
+      updatedMentorName: name,
+    });
+  } catch (err) {
+    return res.json({
+      message: "mentor has not found",
+      error: err.message,
+    });
+  }
+});
 
 // http://localhost:3500/mentor/:name
 app.get("/mentor/:name", async (req, res) => {
@@ -146,7 +149,7 @@ app.get("/mentor/:name", async (req, res) => {
 // http://localhost:3500/student/nomenter
 app.get("/student/nomenter", async (req, res) => {
   let student = await studentModule.find();
-  const studs = []
+  const studs = [];
   student.forEach((val) => {
     if (!val.mentor.length) {
       studs.push(val);
@@ -189,7 +192,7 @@ app.get("/pre/:name", async (req, res) => {
   const { name } = req.params;
   let student = await studentModule.find({ name: name }, { _id: 0, mentor: 1 });
   student = student[0].mentor.slice(0, student[0].mentor.length - 1);
-  console.log(student)
+  console.log(student);
   if (student.length) {
     return res.json({
       message: "requested student previous mentor's of given student",
@@ -237,6 +240,6 @@ app.delete("/student/del/:name", async (req, res) => {
   });
 });
 
-app.listen(3500,"0.0.0.0",() => {
+app.listen(3500, "0.0.0.0", () => {
   console.log("server is running in port 3500");
 });
